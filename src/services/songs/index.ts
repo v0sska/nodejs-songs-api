@@ -38,5 +38,25 @@ export const saveSong = async ({
     return song._id;
 }
 
+export const listSongs = async (groupId: number, size: number = 10, from: number = 0): Promise<SongsDto[]> => {
+    try {
+        const songs = await Songs.find({ groupId })
+            .sort({ dateOfRelease: -1 }) // Сортування по зменшенню дати випуску
+            .skip(from) // Пропуск елементів
+            .limit(size); // Обмеження кількості елементів
 
+        return songs.map(song => toSongsDto(song));
+    } catch (error) {
+        console.error('Error while fetching songs:', error);
+        throw error; // Кидання помилки для обробки на рівні контролера
+    }
+}
 
+const toSongsDto = (song: ISongs): SongsDto => {
+    return {
+        _id: song._id,
+        name: song.name,
+        groupId: song.groupId,
+        dateOfRelease: song.dateOfRelease,
+    };
+}

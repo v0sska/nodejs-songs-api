@@ -4,6 +4,6 @@ import { listIdGroups, saveSong } from '../../controllers/songs';
 const router = express.Router();
 
   router.get('', listIdGroups);
-  router.post('/api', saveSong);
+  router.post('', saveSong);
 
 export default router;

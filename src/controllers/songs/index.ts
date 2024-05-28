@@ -28,7 +28,6 @@ export const saveSong = async (req : Request, res: Response) => {
         });
         res.status(httpStatus.CREATED).send({ songId, });
     }catch (error) {
-        res.status(httpStatus.INTERNAL_SERVER_ERROR);
+        res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error);
     }
 }
-    
