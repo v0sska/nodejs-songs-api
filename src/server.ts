@@ -37,7 +37,7 @@ const startServer = async () => {
   await connectDB(); // Виклик connectDB()
 
   // Запуск сервера на визначеному порту
-  const port = process.env.PORT || 3000;
+  const port = process.env.PORT || 4000;
   app.listen(port, () => {
     log4js.getLogger().info(`Example app listening on port ${port}`);
   });
