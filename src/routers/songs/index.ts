@@ -1,9 +1,9 @@
 import express from 'express';
-import { listIdGroups, saveSong } from '../../controllers/songs';
+import {saveSong, getSongs} from '../../controllers/songs';
 
 const router = express.Router();
 
-  router.get('', listIdGroups);
+  router.get('', getSongs);
   router.post('', saveSong);
 
 export default router;

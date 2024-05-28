@@ -1,7 +1,8 @@
 import httpStatus from 'http-status';
 import { SongsSaveDto } from '../../dto/songs/songsSaveDto';
 import { checkGroupsIds, 
-    saveSong as saveSongApi } from '../../services/songs';
+    saveSong as saveSongApi,
+    listSongs as listSongsApi } from '../../services/songs';
 import { Request, Response } from 'express';
 
 
@@ -31,3 +32,22 @@ export const saveSong = async (req : Request, res: Response) => {
         res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error);
     }
 }
+
+export const getSongs = async (req: Request, res: Response) => {
+    const { groupId, size, from } = req.query;
+
+    if (!groupId) {
+        return res.status(400).send({ error: 'groupId is required' });
+    }
+
+    const groupIdNumber = parseInt(groupId as string, 10);
+    const limit = parseInt(size as string, 10) || 10;
+    const skip = parseInt(from as string, 10) || 0;
+
+    try {
+        const songs = await listSongsApi(groupIdNumber, limit, skip);
+        res.status(200).send(songs);
+    } catch (error) {
+        res.status(500).send({ error: 'An error occurred while fetching data' });
+    }
+};
