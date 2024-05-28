@@ -5,7 +5,7 @@ import express from 'express';
 import routers from './routers';
 import config from './config';
 import log4js, { Configuration } from 'log4js';
-import connectDB from './config/mongoConfig'; // Імпортуємо функцію connectDB
+import connectDB from './config/mongoConfig';
 
 const startServer = async () => {
   const app = express();
@@ -33,10 +33,9 @@ const startServer = async () => {
 
   app.use('/', routers);
 
-  // Підключення до MongoDB
-  await connectDB(); // Виклик connectDB()
 
-  // Запуск сервера на визначеному порту
+  await connectDB();
+
   const port = process.env.PORT || 4000;
   app.listen(port, () => {
     log4js.getLogger().info(`Example app listening on port ${port}`);

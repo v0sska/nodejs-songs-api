@@ -16,7 +16,6 @@ const getGroups = async (): Promise<number[]> => {
         const data = await response.json();
         console.log('Fetched data:', data);
 
-        // Витягуємо масив груп з об'єкта `content`
         const groups = data.content;
 
         if (!Array.isArray(groups)) {

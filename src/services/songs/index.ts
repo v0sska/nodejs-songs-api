@@ -11,10 +11,10 @@ export const checkGroupsIds = async (): Promise<number[]> => {
         console.log('Retrieved group IDs:', groupIds);
     } catch (error) {
         console.error('Error while retrieving group IDs:', error);
-        throw error; // Переконайтеся, що помилка кидається, щоб її можна було обробити
+        throw error;
     }
 
-    return groupIds; // Повертаємо масив groupIds
+    return groupIds;
 };
 
 export const saveSong = async ({
@@ -41,14 +41,14 @@ export const saveSong = async ({
 export const listSongs = async (groupId: number, size: number = 10, from: number = 0): Promise<SongsDto[]> => {
     try {
         const songs = await Songs.find({ groupId })
-            .sort({ dateOfRelease: -1 }) // Сортування по зменшенню дати випуску
-            .skip(from) // Пропуск елементів
-            .limit(size); // Обмеження кількості елементів
+            .sort({ dateOfRelease: -1 })
+            .skip(from)
+            .limit(size);
 
         return songs.map(song => toSongsDto(song));
     } catch (error) {
         console.error('Error while fetching songs:', error);
-        throw error; // Кидання помилки для обробки на рівні контролера
+        throw error;
     }
 }
 
