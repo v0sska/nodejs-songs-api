@@ -52,6 +52,36 @@ export const listSongs = async (groupId: number, size: number = 10, from: number
     }
 }
 
+export const countSongsByGroup = async (): Promise<Record<string, number>> => {
+    try {
+        const results = await Songs.aggregate([
+            {
+                $group: {
+                    _id: "$groupId",
+                    count: { $sum: 1 }
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    groupId: "$_id",
+                    count: 1
+                }
+            }
+        ]);
+
+        const counts: Record<string, number> = {};
+        results.forEach((result) => {
+            counts[result.groupId] = result.count;
+        });
+
+        return counts;
+    } catch (error) {
+        console.error('Error while counting songs by group:', error);
+        throw error;
+    }
+};
+
 const toSongsDto = (song: ISongs): SongsDto => {
     return {
         _id: song._id,

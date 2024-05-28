@@ -2,7 +2,8 @@ import httpStatus from 'http-status';
 import { SongsSaveDto } from '../../dto/songs/songsSaveDto';
 import { checkGroupsIds, 
     saveSong as saveSongApi,
-    listSongs as listSongsApi } from '../../services/songs';
+    listSongs as listSongsApi,
+    countSongsByGroup as  countSongsByGroupApi} from '../../services/songs';
 import { Request, Response } from 'express';
 
 
@@ -47,6 +48,15 @@ export const getSongs = async (req: Request, res: Response) => {
     try {
         const songs = await listSongsApi(groupIdNumber, limit, skip);
         res.status(200).send(songs);
+    } catch (error) {
+        res.status(500).send({ error: 'An error occurred while fetching data' });
+    }
+};
+
+export const getCountsByGroup = async (_: Request, res: Response): Promise<void> => {
+    try {
+        const counts = await countSongsByGroupApi();
+        res.status(200).send(counts);
     } catch (error) {
         res.status(500).send({ error: 'An error occurred while fetching data' });
     }
