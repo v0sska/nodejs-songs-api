@@ -2,6 +2,8 @@ import getGroups from "../../apis";
 import Songs, {ISongs} from "../../model/songs";
 import { SongsSaveDto } from "../../dto/songs/songsSaveDto";
 import { SongsDto } from "../../dto/songs/songsDto";
+import  sendMessageToKafta  from "../../config/kafkaSender";
+import { MessageToSent} from "../../model/messageToSent";
 
 export const checkGroupsIds = async (): Promise<number[]> => {
     let groupIds: number[];
@@ -34,6 +36,15 @@ export const saveSong = async ({
         groupId,
         dateOfRelease,
     }).save();
+
+    const messageToKafka : MessageToSent = {
+        id: song._id.toString(),
+        content : `${song} has been added to the database`,
+        subject: 'song',
+        email : 'bbla62505@gmail.com'
+    };
+
+    await sendMessageToKafta(messageToKafka);
 
     return song._id;
 }

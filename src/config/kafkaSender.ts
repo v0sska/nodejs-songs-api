@@ -1,4 +1,5 @@
 import { Kafka } from 'kafkajs';
+import { MessageToSent } from '../model/messageToSent';
 
 const kafka = new Kafka({
     clientId: 'my-app',
@@ -7,7 +8,7 @@ const kafka = new Kafka({
 
 const producer = kafka.producer();
 
-const sendMessageToKfka = async (message) => {
+const sendMessageToKafka = async (message : MessageToSent) => {
 
     await producer.connect();
 
@@ -18,3 +19,5 @@ const sendMessageToKfka = async (message) => {
         ],
     });
 }
+
+export default sendMessageToKafka;
